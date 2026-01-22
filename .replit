@@ -1,0 +1,13 @@
+run = "nix run"
+entrypoint = "flake.nix"
+modules = ["nix"]
+
+[nix]
+channel = "stable-24_05"
+
+[agent]
+expertMode = true
+
+[[ports]]
+localPort = 8080
+externalPort = 80
