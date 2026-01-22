@@ -15,7 +15,7 @@ func main() {
   r.Use(gin.Logger())
   r.Use(gin.Recovery())
   r.GET("/health", healthCheck)
-  routes.AuthRoutes(r)
+  routes.AuthRoutes(r, cfg)
   routes.NoteRoutes(r)
   r.Run()
 }

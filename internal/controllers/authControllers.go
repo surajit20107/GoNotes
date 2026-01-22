@@ -106,3 +106,13 @@ func (ac *AuthController) Login (c *gin.Context) {
     "token": token,
   })
 }
+
+func (ac *AuthController) Logout (c *gin.Context) {
+  // clear the cookie from the client
+  c.SetCookie("access_token", "", -1, "/", "", true, true)
+  
+  c.JSON(http.StatusOK, gin.H{
+    "success": true,
+    "message": "User logged out successfully",
+  })
+}
