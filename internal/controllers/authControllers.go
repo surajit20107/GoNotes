@@ -52,7 +52,7 @@ func (ac *AuthController) Register (c *gin.Context) {
   }
 
   // set token in cookie
-  c.SetCookie("access_token", token, 3600, "/", "", false, true)
+  c.SetCookie("access_token", token, 3600, "/", "", true, true)
 
   // return success response
   c.JSON(http.StatusCreated, gin.H{

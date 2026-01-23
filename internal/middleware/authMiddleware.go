@@ -10,18 +10,32 @@ import (
 func AuthMiddleware(secret string) gin.HandlerFunc {
   return func(c *gin.Context) {
     var tokenString string
+
+    // extract token from header
     authHeader := c.GetHeader("Authorization")
-    if strings.HasPrefix(authHeader, "Bearer ") {
+    
+    if authHeader != "" {
+      if !strings.HasPrefix(authHeader, "Bearer ") {
+        c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+          "error": "Invalid authorization header format",
+        })
+        return
+      }
+      
       tokenString = strings.TrimPrefix(authHeader, "Bearer ")
+    } else {
+      // extract token from cookie
+      cookie, err := c.Cookie("access_token")
+      if err != nil {
+        c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+          "error": "Authentication required",
+        })
+        return
+      }
+
+      tokenString = cookie
     }
     
-    if tokenString == "" {
-      cookie, err := c.Cookie("access_token")
-      if err == nil {
-      tokenString = cookie
-      }
-    }
-
     if tokenString == "" {
       c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
           "error": "Authentication required",
@@ -36,7 +50,8 @@ func AuthMiddleware(secret string) gin.HandlerFunc {
       })
       return
     }
-    
+
+    // set user id in context
     c.Set("user_id", claims.UserID)
     c.Next()
   }
