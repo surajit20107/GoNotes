@@ -3,7 +3,7 @@ package controllers
 import (
    "net/http"
   "github.com/gin-gonic/gin"
-  // "github.com/surajit/notes-api/internal/models"
+  "github.com/surajit/notes-api/internal/models"
   "github.com/surajit/notes-api/internal/services"
   "github.com/google/uuid"
 )
@@ -56,7 +56,6 @@ func (nc *NoteController) GetNotes(c *gin.Context) {
   })
 }
 
-/*
 func (nc *NoteController) CreateNote(c *gin.Context) {
   // get current logged in user id using middleware
   userId := c.GetString("user_id")
@@ -67,8 +66,18 @@ func (nc *NoteController) CreateNote(c *gin.Context) {
     })
     return
   }
+
+  // parse user id to uuid
+  uid, err := uuid.Parse(userId)
+  if err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{
+      "success": false,
+      "error": "Invalid user id, please login again",
+    })
+    return
+  }
   
-  var noteDto models.noteDto
+  var noteDto models.NoteDTO
 
   if err := c.ShouldBindJSON(&noteDto); err != nil {
     c.JSON(http.StatusBadRequest, gin.H{
@@ -78,9 +87,9 @@ func (nc *NoteController) CreateNote(c *gin.Context) {
     return
   }
 
-  note, err := nc.noteService.CreateNote(noteDto)
+  note, err := nc.noteService.CreateNote(noteDto, uid)
   if err != nil {
-    c.JSON(http.StatuserverError, gin.H{
+    c.JSON(http.StatusInternalServerError, gin.H{
       "success": false,
       "error": err.Error(),
     })
@@ -93,4 +102,3 @@ func (nc *NoteController) CreateNote(c *gin.Context) {
     "note": note,
   })
 }
-*/

@@ -26,6 +26,19 @@ func (ns *NoteService) GetNotes(userId uuid.UUID) ([]models.Note, error) {
   return notes, nil
 }
 
-/*
-func (ns *NoteService) CreateNote(noteDto models.NoteDTO, userId string) (models.Note, error) {}
-*/
+// create a new note
+func (ns *NoteService) CreateNote(noteDto models.NoteDTO, userId uuid.UUID) (models.Note, error) {
+  var note models.Note
+  note = models.Note{
+    ID: uuid.New(),
+    Title: noteDto.Title,
+    Content: noteDto.Content,
+    Author: userId,
+  }
+  err := database.DB.Create(&note).Error
+  if err != nil {
+    return models.Note{}, err
+  }
+
+  return note, nil
+}

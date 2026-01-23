@@ -22,4 +22,5 @@ type Note struct {
 type NoteDTO struct {
   Title string `json:"title" binding:"required,min=3"`
   Content string `json:"content" binding:"required,min=3"`
+  Author uuid.UUID `json:"author"`
 }
