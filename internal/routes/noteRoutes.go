@@ -19,13 +19,6 @@ func NoteRoutes(r *gin.Engine, cfg *config.Config) {
     note.GET("/:id", noteController.GetNoteById)
     note.POST("/", noteController.CreateNote)
     note.PUT("/:id", noteController.UpdateNote)
-    note.DELETE("/:id", test)
+    note.DELETE("/:id", noteController.DeleteNote)
   }
-}
-
-func test(c *gin.Context) {
-  c.JSON(200, gin.H{
-    "success": true,
-    "message": "API is working...⚙️",
-  })
 }

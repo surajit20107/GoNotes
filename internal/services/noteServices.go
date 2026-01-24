@@ -1,6 +1,7 @@
 package services
 
 import (
+  "errors"
   "github.com/surajit/notes-api/internal/models"
   "github.com/surajit/notes-api/internal/database"
   "github.com/google/uuid"
@@ -58,15 +59,31 @@ func (ns *NoteService) GetNoteById(userId uuid.UUID, noteId string) (models.Note
 // update a note by id and return the updated note
 func (ns *NoteService) UpdateNote(userId uuid.UUID, noteId string, data *map[string]interface{}) (models.Note, error) {
   var note models.Note
+  // find the note by noteId and userId and store it in note variable
   err := database.DB.Where("id = ? AND author = ?", noteId, userId).First(&note).Error
   if err != nil {
     return models.Note{}, err
   }
 
+  // update the note with the data provided in the request body
   err = database.DB.Model(&note).Updates(data).Error
   if err != nil {
     return models.Note{}, err
   }
 
+  // return the updated note if no error
   return note, nil
+}
+
+func (ns *NoteService) DeleteNote(userId uuid.UUID, noteId string) error {
+  res := database.DB.Where("id = ? AND author = ?", noteId, userId).Delete(&models.Note{})
+  if res.Error != nil {
+    return res.Error
+  }
+
+  if res.RowsAffected == 0 {
+    return errors.New("note not found")
+  }
+
+  return nil
 }
