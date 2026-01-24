@@ -5,9 +5,12 @@ import (
   "github.com/surajit/notes-api/internal/config"
   "github.com/surajit/notes-api/internal/database"
   "github.com/surajit/notes-api/internal/routes"
+  "github.com/surajit/notes-api/internal/logger"
 )
 
 func main() {
+  logger.Init()
+  logger.Log.Info("Starting server...")
   cfg := config.LoadConfig()
   database.ConnectDB(cfg)
   database.AutoMigrate(database.DB)

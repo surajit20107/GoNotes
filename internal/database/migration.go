@@ -1,8 +1,9 @@
 package database
 
 import (
-  "log"
+  "os"
   "github.com/surajit/notes-api/internal/models"
+  "github.com/surajit/notes-api/internal/logger"
   "gorm.io/gorm"
 )
 
@@ -13,7 +14,8 @@ func AutoMigrate(db *gorm.DB) {
   )
   
   if err != nil {
-    log.Fatal("Failed to migrate Database:", err)
+    logger.Log.Error("Failed to migrate Database:", err)
+    os.Exit(1)
   }
   
 }

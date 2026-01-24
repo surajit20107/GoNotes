@@ -2,11 +2,11 @@ package services
 
 import (
   "errors"
-  "fmt"
   "github.com/surajit/notes-api/internal/database"
   "github.com/surajit/notes-api/internal/models"
   "github.com/surajit/notes-api/utils"
-   "github.com/google/uuid"
+  "github.com/google/uuid"
+  "github.com/surajit/notes-api/internal/logger"
 )
 
 type AuthService struct{}
@@ -38,7 +38,7 @@ func (s *AuthService) RegisterUser(dto models.SignupDTO) (*models.User, error) {
 
   // save the user to the database
   if err := database.DB.Create(&user).Error; err != nil {
-    fmt.Println("Error creating user: ", err.Error())
+    logger.Log.Error("Error creating user: ", err.Error())
     return nil, err
   }
   return &user, nil

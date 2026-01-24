@@ -1,12 +1,12 @@
 package database
 
 import (
-  "fmt"
-  "log"
+  "os"
   "time"
   "gorm.io/driver/postgres"
   "gorm.io/gorm"
   "github.com/surajit/notes-api/internal/config"
+  "github.com/surajit/notes-api/internal/logger"
 )
 
 var DB *gorm.DB
@@ -14,13 +14,15 @@ var DB *gorm.DB
 func ConnectDB(cfg *config.Config) *gorm.DB {
   database, err := gorm.Open(postgres.Open(cfg.DB_URL), &gorm.Config{})
   if err != nil {
-    log.Fatal("Database connection failed:", err)
+    logger.Log.Error("Database connection failed:", err)
+    os.Exit(1)
   }
 
   // get underlying sql.DB for pool settings
   sqlDB, err := database.DB()
   if err != nil {
-    log.Fatal("Failed to get database instance:", err)
+    logger.Log.Error("Failed to get database instance:", err)
+    os.Exit(1)
   }
 
   // connection pool settings
@@ -30,15 +32,10 @@ func ConnectDB(cfg *config.Config) *gorm.DB {
 
   // optional: verify DB connection
   if err = sqlDB.Ping(); err != nil {
-    log.Fatal("Failed to ping database", err)
+    logger.Log.Error("Failed to ping database", err)
   }
 
-  fmt.Println("Database connected successfully ✅")
-
-  // logger
-  // &gorm.Config{
-  //   Logger: logger.Default.LogMode(logger.Warn),
-  // }
+  logger.Log.Info("Database connected successfully ✅")
 
   // return the database instance
   DB = database

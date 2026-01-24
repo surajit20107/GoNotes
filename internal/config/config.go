@@ -1,10 +1,9 @@
 package config
 
 import (
-  "log"
   "os"
-  "fmt"
   "github.com/joho/godotenv"
+  "github.com/surajit/notes-api/internal/logger"
 )
 
 type Config struct {
@@ -15,7 +14,7 @@ type Config struct {
 func LoadConfig() *Config {
   err := godotenv.Load()
   if err != nil {
-    fmt.Println("Warning: Failed to load .env file using system environment variables")
+    logger.Log.Warn("Warning: Failed to load .env file using system environment variables")
   }
   return &Config {
     DB_URL: getEnv("DB_URL"),
@@ -27,7 +26,8 @@ func LoadConfig() *Config {
 func getEnv(key string) string {
   value := os.Getenv(key)
   if value == "" {
-    log.Fatalf("Missing required environment variable: %s", key)
+    logger.Log.Error("Missing required environment variable:", key)
+    os.Exit(1)
   }
   return value
 }
