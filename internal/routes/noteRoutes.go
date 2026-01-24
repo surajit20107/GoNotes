@@ -18,8 +18,8 @@ func NoteRoutes(r *gin.Engine, cfg *config.Config) {
     note.GET("/", noteController.GetNotes)
     note.GET("/:id", noteController.GetNoteById)
     note.POST("/", noteController.CreateNote)
-    note.PUT("/:id", test)
-    // note.DELETE("/:id", test)
+    note.PUT("/:id", noteController.UpdateNote)
+    note.DELETE("/:id", test)
   }
 }
 

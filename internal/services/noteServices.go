@@ -54,3 +54,19 @@ func (ns *NoteService) GetNoteById(userId uuid.UUID, noteId string) (models.Note
 
   return note, nil
 }
+
+// update a note by id and return the updated note
+func (ns *NoteService) UpdateNote(userId uuid.UUID, noteId string, data *map[string]interface{}) (models.Note, error) {
+  var note models.Note
+  err := database.DB.Where("id = ? AND author = ?", noteId, userId).First(&note).Error
+  if err != nil {
+    return models.Note{}, err
+  }
+
+  err = database.DB.Model(&note).Updates(data).Error
+  if err != nil {
+    return models.Note{}, err
+  }
+
+  return note, nil
+}
