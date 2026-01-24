@@ -16,9 +16,9 @@ func NoteRoutes(r *gin.Engine, cfg *config.Config) {
   noteController := controllers.NewNoteController(noteService)
   {
     note.GET("/", noteController.GetNotes)
-    note.GET("/:id", test)
+    note.GET("/:id", noteController.GetNoteById)
     note.POST("/", noteController.CreateNote)
-    // note.PUT("/:id", test)
+    note.PUT("/:id", test)
     // note.DELETE("/:id", test)
   }
 }

@@ -1,7 +1,7 @@
 package controllers
 
 import (
-   "net/http"
+  "net/http"
   "github.com/gin-gonic/gin"
   "github.com/surajit/notes-api/internal/models"
   "github.com/surajit/notes-api/internal/services"
@@ -18,6 +18,7 @@ func NewNoteController(noteService *services.NoteService) *NoteController {
   }
 }
 
+// get all notes for a user
 func (nc *NoteController) GetNotes(c *gin.Context) {
   // get current logged in user id using middleware
   userId := c.GetString("user_id")
@@ -56,6 +57,7 @@ func (nc *NoteController) GetNotes(c *gin.Context) {
   })
 }
 
+// create a new note
 func (nc *NoteController) CreateNote(c *gin.Context) {
   // get current logged in user id using middleware
   userId := c.GetString("user_id")
@@ -99,6 +101,42 @@ func (nc *NoteController) CreateNote(c *gin.Context) {
   c.JSON(http.StatusCreated, gin.H{
     "success": true,
     "message": "Note created successfully",
+    "note": note,
+  })
+}
+
+// get notes by id
+func (nc *NoteController) GetNoteById(c *gin.Context) {
+  userId := c.GetString("user_id")
+  if userId == "" {
+    c.JSON(http.StatusUnauthorized, gin.H{
+      "success": false,
+      "error": "Unauthorized",
+    })
+    return
+  }
+
+  uid, err := uuid.Parse(userId)
+  if err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{
+      "success": false,
+      "error": "Invalid user id, please login again",
+    })
+    return
+  }
+
+  noteId := c.Param("id")
+  note, err := nc.noteService.GetNoteById(uid, noteId)
+  if err != nil {
+    c.JSON(http.StatusNotFound, gin.H{
+      "success": false,
+      "error": err.Error(),
+    })
+    return
+  }
+
+  c.JSON(http.StatusOK, gin.H{
+    "success": true,
     "note": note,
   })
 }
