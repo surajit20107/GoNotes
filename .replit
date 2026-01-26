@@ -1,6 +1,6 @@
 run = "nix run"
 entrypoint = "flake.nix"
-modules = ["nix"]
+modules = ["nix", "nodejs-20"]
 
 [nix]
 channel = "stable-24_05"
