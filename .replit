@@ -13,7 +13,7 @@ localPort = 8080
 externalPort = 8080
 
 [workflows]
-runButton = "Project"
+#runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -27,11 +27,11 @@ args = "Server"
 [[workflows.workflow]]
 name = "Server"
 author = "agent"
+mode = "parallel"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd server && go run cmd/server/main.go"
-waitForPort = 8080
+args = "cd server && go mod tidy"
 
 [workflows.workflow.metadata]
 outputType = "console"
