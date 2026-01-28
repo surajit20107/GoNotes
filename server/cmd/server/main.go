@@ -14,21 +14,28 @@ import (
 func main() {
   logger.Init()
   logger.Log.Info("Starting server...")
+  
   cfg := config.LoadConfig()
   database.ConnectDB(cfg)
   database.AutoMigrate(database.DB)
+  
   r := gin.Default()
   r.Use(gin.Logger())
   r.Use(gin.Recovery())
+  
   // CORS middleware
   r.Use(cors.New(cors.Config{
     AllowOrigins: []string{os.Getenv("CLIENT_URL")},
-    AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
+    AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
     AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
     ExposeHeaders: []string{"Content-Length"},
     AllowCredentials: true,
     MaxAge: 12 * time.Hour,
   }))
+
+  r.OPTIONS("/*path", func(c *gin.Context) {
+    c.AbortWithStatus(204)
+  })
   
   // Routes
   r.GET("/", healthCheck)
