@@ -8,6 +8,7 @@ import (
   "github.com/surajit/notes-api/internal/routes"
   "github.com/surajit/notes-api/internal/logger"
   "time"
+  "os"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
   r.Use(gin.Recovery())
   // CORS middleware
   r.Use(cors.New(cors.Config{
-    AllowOrigins: []string{"*"},
+    AllowOrigins: []string{os.Getenv("CLIENT_URL")},
     AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
     AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
     ExposeHeaders: []string{"Content-Length"},
