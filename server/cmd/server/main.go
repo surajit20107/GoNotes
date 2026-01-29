@@ -8,7 +8,6 @@ import (
   "github.com/surajit/notes-api/internal/routes"
   "github.com/surajit/notes-api/internal/logger"
   "time"
-  "os"
 )
 
 func main() {
@@ -20,22 +19,35 @@ func main() {
   database.AutoMigrate(database.DB)
   
   r := gin.Default()
-  r.Use(gin.Logger())
-  r.Use(gin.Recovery())
+
+  // temporary middleware
+  r.Use(func(c *gin.Context) {
+    origin := c.Request.Header.Get("Origin")
+    if origin != "" {
+        logger.Log.Info("Request Origin:", origin)
+    }
+    c.Next()
+})
   
-  // CORS middleware
+  // middlewares
   r.Use(cors.New(cors.Config{
-    AllowOrigins: []string{os.Getenv("CLIENT_URL")},
+    AllowOrigins: []string{
+      "https://go-notes-frontend.vercel.app",
+      "https://c9e6293d-a3f2-4638-a088-507983afa80f-00-1z3rnias14xhz.sisko.replit.dev",
+    },
     AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
-    AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+    AllowHeaders: []string{ "Content-Type", "Authorization"},
     ExposeHeaders: []string{"Content-Length"},
     AllowCredentials: true,
     MaxAge: 12 * time.Hour,
   }))
 
-  r.OPTIONS("/*path", func(c *gin.Context) {
-    c.AbortWithStatus(204)
-  })
+  r.Use(gin.Logger())
+  r.Use(gin.Recovery())
+
+  // r.OPTIONS("/*path", func(c *gin.Context) {
+  //   c.AbortWithStatus(204)
+  // })
   
   // Routes
   r.GET("/", healthCheck)
