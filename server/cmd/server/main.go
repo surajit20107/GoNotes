@@ -1,13 +1,15 @@
 package main
 
 import (
-  "github.com/gin-gonic/gin"
-  "github.com/gin-contrib/cors"
-  "github.com/surajit/notes-api/internal/config"
-  "github.com/surajit/notes-api/internal/database"
-  "github.com/surajit/notes-api/internal/routes"
-  "github.com/surajit/notes-api/internal/logger"
-  "time"
+        "os"
+        "time"
+
+        "github.com/gin-contrib/cors"
+        "github.com/gin-gonic/gin"
+        "github.com/surajit/notes-api/internal/config"
+        "github.com/surajit/notes-api/internal/database"
+        "github.com/surajit/notes-api/internal/logger"
+        "github.com/surajit/notes-api/internal/routes"
 )
 
 func main() {
@@ -20,18 +22,19 @@ func main() {
   
   r := gin.Default()
   
-  // middlewares
-  r.Use(cors.New(cors.Config{
-    AllowOrigins: []string{
-      "https://go-notes-frontend.vercel.app",
-      "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev:5000",
-    },
-    AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
-    AllowHeaders: []string{ "Content-Type", "Authorization"},
-    ExposeHeaders: []string{"Content-Length"},
-    AllowCredentials: true,
-    MaxAge: 12 * time.Hour,
-  }))
+        // middlewares
+        r.Use(cors.New(cors.Config{
+                AllowOrigins: []string{
+                        "http://localhost:5000",
+                        "https://" + os.Getenv("REPLIT_DEV_DOMAIN"),
+                        "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev",
+                },
+                AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
+                AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie"},
+                ExposeHeaders:    []string{"Content-Length"},
+                AllowCredentials: true,
+                MaxAge:           12 * time.Hour,
+        }))
   
   // Routes
   r.GET("/", healthCheck)
