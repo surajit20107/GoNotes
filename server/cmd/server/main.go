@@ -61,3 +61,10 @@ func main() {
 
 	r.Run()
 }
+
+func healthCheck(c *gin.Context) {
+  c.JSON(200, gin.H{
+    "success": true,
+    "message": "Server up and running...🚀",
+  })
+}
