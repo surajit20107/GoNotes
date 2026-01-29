@@ -24,7 +24,7 @@ func main() {
   r.Use(cors.New(cors.Config{
     AllowOrigins: []string{
       "https://go-notes-frontend.vercel.app",
-      "https://c9e6293d-a3f2-4638-a088-507983afa80f-00-1z3rnias14xhz.sisko.replit.dev",
+      "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev:5000",
     },
     AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
     AllowHeaders: []string{ "Content-Type", "Authorization"},
