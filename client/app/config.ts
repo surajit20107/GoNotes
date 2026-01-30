@@ -1,1 +1,1 @@
-export const API_BASE_URL = "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev/api/v1";
+export const API_BASE_URL = "https://gonotes-7d8s.onrender.com/api/v1";
