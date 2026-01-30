@@ -25,9 +25,7 @@ func main() {
         // middlewares
         r.Use(cors.New(cors.Config{
                 AllowOrigins: []string{
-                        "http://localhost:5000",
-                        "https://" + os.Getenv("REPLIT_DEV_DOMAIN"),
-                        "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev",
+                        "https://gonextpad.vercel.app",
                 },
                 AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
                 AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie"},
