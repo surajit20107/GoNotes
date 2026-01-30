@@ -1,7 +1,6 @@
 package main
 
 import (
-        "os"
         "time"
 
         "github.com/gin-contrib/cors"
