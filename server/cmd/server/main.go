@@ -24,13 +24,10 @@ func main() {
         // middlewares
         r.Use(cors.New(cors.Config{
                 AllowOrigins: []string{
-                        "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev",
-                        "https://896fb214-6fca-459e-917f-2243f5a11906-00-2okg1ws4e4ith.sisko.replit.dev:5000",
-                        "http://localhost:5000",
                         "https://gonextpad.vercel.app",
                 },
                 AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
-                AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie", "Origin", "Accept"},
+                AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie"},
                 ExposeHeaders:    []string{"Content-Length"},
                 AllowCredentials: true,
                 MaxAge:           12 * time.Hour,
