@@ -22,7 +22,6 @@ func main() {
   r := gin.Default()
   r.SetTrustedProxies(nil)
   frontend := "https://gonextpad.vercel.app"
-  cookieDomain := "gonotes-7d8s.onrender.com"
 
         // preflight request
         r.Use(func(c *gin.Context) {
