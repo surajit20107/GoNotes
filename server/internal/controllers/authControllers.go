@@ -52,7 +52,7 @@ func (ac *AuthController) Register (c *gin.Context) {
   }
 
   // set token in cookie
-  c.SetCookie("access_token", token, 3600, "/", "", true, true)
+  c.SetCookie("access_token", token, 3600, "/", "gonotes-7d8s.onrender.com", true, true)
 
   // return success response
   c.JSON(http.StatusCreated, gin.H{
@@ -96,7 +96,7 @@ func (ac *AuthController) Login (c *gin.Context) {
   }
 
   // set token in cookie
-  c.SetCookie("access_token", token, 3600, "/", "", true, true)
+  c.SetCookie("access_token", token, 3600, "/", "gonotes-7d8s.onrender.com", true, true)
 
   // return success response
   c.JSON(http.StatusOK, gin.H{
