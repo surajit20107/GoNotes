@@ -22,16 +22,16 @@ func main() {
   r := gin.Default()
   r.SetTrustedProxies(nil)
   frontend := "https://gonextpad.vercel.app"
-        
-        // middlewares
-        r.Use(cors.New(cors.Config{
-                AllowOrigins: []string{frontend},
-                AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
-                AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie"},
-                ExposeHeaders:    []string{"Content-Length"},
-                AllowCredentials: true,
-                MaxAge:           12 * time.Hour,
-        }))
+  
+  // middlewares
+  r.Use(cors.New(cors.Config{
+    AllowOrigins: []string{frontend},
+    AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"},
+    AllowHeaders:     []string{"Content-Type", "Authorization", "Cookie"},
+    ExposeHeaders:    []string{"Content-Length"},
+    AllowCredentials: true,
+    MaxAge:           12 * time.Hour,
+  }))
   
   // Routes
   r.GET("/", healthCheck)

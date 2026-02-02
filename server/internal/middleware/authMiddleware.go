@@ -9,6 +9,11 @@ import (
 
 func AuthMiddleware(secret string) gin.HandlerFunc {
   return func(c *gin.Context) {
+    if c.Request.Method == http.MethodOptions {
+      c.AbortWithStatus(http.StatusOK)
+      return
+    }
+    
     var tokenString string
 
     // extract token from header
