@@ -2,7 +2,7 @@ package main
 
 import (
         "time"
-        "net/http"
+        
         "github.com/gin-contrib/cors"
         "github.com/gin-gonic/gin"
         "github.com/surajit/notes-api/internal/config"
